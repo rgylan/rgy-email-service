@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+email:
+  mailgun:
+    apiKey: YOUR_MAILGUN_API_KEY
+    domain: YOUR_MAILGUN_DOMAIN
+    url: https://api.mailgun.net/v3
+  sendgrid:
+    apiKey: "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"
+    url: https://api.sendgrid.com/v3

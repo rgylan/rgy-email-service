@@ -1,0 +1,24 @@
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+
+    <!-- Console Appender -->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- You can set target="System.err" if you want logs to go to stderr -->
+        <target>System.out</target>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- Set log level for root -->
+    <root level="INFO">
+        <appender-ref ref="Console"/>
+    </root>
+
+    <!-- Example: Customize logging levels for your package -->
+    <logger name="com.rgy.email" level="DEBUG" additivity="false">
+        <appender-ref ref="Console"/>
+    </logger>
+
+</configuration>
