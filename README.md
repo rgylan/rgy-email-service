@@ -1,13 +1,14 @@
 # Overview
 
-A Spring Boot WebFlux application that sends email via two providers—Mailgun and SendGrid. The first provider is used by default, and if it fails, we fail over to the second provider.
+This is a Spring Boot WebFlux application that sends emails through two different providers (e.g., Mailgun and SendGrid). If the primary provider fails (due to an error or timeout), the service automatically retries the next provider in the list.
 
-### Requirements Met
+### Problem Statement
 
-1. REST API endpoint (POST /emails) that accepts JSON.
-2. Reactive (Spring WebFlux).
-3. Failover strategy via fallback.
-4. No 3rd party libraries for Mailgun/SendGrid; we use plain WebClient.
+1. We need to send emails (plain-text only) to multiple recipients (supporting To, CC, and BCC).
+2. Failover: If one email service is down or unresponsive, the system should seamlessly fall back to another provider.
+3. No third-party Mailgun/SendGrid client libraries are allowed. We must make handcrafted HTTP requests using a simple HTTP client (Spring’s WebClient).
+4. Minimal authentication is required for this exercise (none for the REST endpoint), but we handle authentication to the email providers themselves (via API keys).
+5. Validation is needed to ensure the request body is well-formed (valid email addresses, non-empty subject/body, etc.).
 
 ### Setup
 1. Configure your credentials in application.yml (or as environment variables).
@@ -24,3 +25,15 @@ A Spring Boot WebFlux application that sends email via two providers—Mailgun a
     "bcc": ["hidden@example.com"]
 }'`
 
+### Response (on success):
+`"Email request accepted."`
+
+### Error Response (e.g., invalid email)
+`
+{
+  "error": "Validation Failed",
+  "details": [
+  "to: must be a well-formed email address (rejected value: rgylan74@@gmail.com)"
+  ]
+}
+`
